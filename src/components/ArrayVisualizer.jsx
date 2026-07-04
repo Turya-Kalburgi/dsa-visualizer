@@ -15,20 +15,24 @@ function ArrayVisualizer({ onStep }) {
 
   const getSum = (l, r) => ARRAY.slice(l, r + 1).reduce((a, b) => a + b, 0)
 
+  const notifyStep = (step) => {
+    onStep?.(step)
+  }
+
   const step = () => {
     setLeft(prev => {
       const newLeft = prev + 1
       const newRight = newLeft + WINDOW_SIZE - 1
       if (newRight >= ARRAY.length) {
         setIsPlaying(false)
-        onStep && onStep(4)
+        notifyStep(4)
         return prev
       }
       setRight(newRight)
       const sum = getSum(newLeft, newRight)
       setCurrentSum(sum)
       setMaxSum(max => Math.max(max, sum))
-      onStep && onStep(2)
+      notifyStep(2)
       return newLeft
     })
   }
@@ -39,6 +43,7 @@ function ArrayVisualizer({ onStep }) {
     setIsPlaying(false)
     setCurrentSum(getSum(0, WINDOW_SIZE - 1))
     setMaxSum(getSum(0, WINDOW_SIZE - 1))
+    notifyStep(0)
   }
 
   useEffect(() => {
@@ -110,22 +115,23 @@ function ArrayVisualizer({ onStep }) {
           ↺ Reset
         </motion.button>
 
-       <motion.button
-           whileTap={{ scale: 0.95 }}
-           onClick={() => {
-    const newLeft = left - 1
-    const newRight = newLeft + WINDOW_SIZE - 1
-    if (newLeft < 0) return
-    setLeft(newLeft)
-    setRight(newRight)
-    const sum = getSum(newLeft, newRight)
-    setCurrentSum(sum)
-    setMaxSum(prev => Math.max(prev, sum))
-  }}
-     className="px-4 py-2 rounded-xl bg-gray-700 text-white font-bold text-sm hover:bg-gray-600"
->
-  ◀ Prev
-</motion.button>
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            const newLeft = left - 1
+            const newRight = newLeft + WINDOW_SIZE - 1
+            if (newLeft < 0) return
+            setLeft(newLeft)
+            setRight(newRight)
+            const sum = getSum(newLeft, newRight)
+            setCurrentSum(sum)
+            setMaxSum(prev => Math.max(prev, sum))
+            notifyStep(1)
+          }}
+          className="px-4 py-2 rounded-xl bg-gray-700 text-white font-bold text-sm hover:bg-gray-600"
+        >
+          ◀ Prev
+        </motion.button>
 
         <motion.button
           whileTap={{ scale: 0.95 }}

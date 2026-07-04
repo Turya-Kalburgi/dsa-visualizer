@@ -1,5 +1,6 @@
 import Navbar from '../components/Navbar'
 import ArrayVisualizer from '../components/ArrayVisualizer'
+import CodeEditor from '../components/CodeEditor'
 import { useState } from 'react'
 
 const codeLines = [
@@ -31,6 +32,30 @@ const narrations = [
   "All windows checked — the maximum subarray sum has been found.",
 ]
 
+const problems = [
+  {
+    id: 1,
+    title: "Maximum Sum Subarray of Size K",
+    difficulty: "Easy",
+    description: "Given an array and integer K, find the maximum sum of any contiguous subarray of size K.",
+    hint: "Use a sliding window of fixed size K."
+  },
+  {
+    id: 2,
+    title: "Longest Substring Without Repeating Characters",
+    difficulty: "Medium",
+    description: "Find the length of the longest substring without repeating characters.",
+    hint: "Use a variable size sliding window with a hash set."
+  },
+  {
+    id: 3,
+    title: "Minimum Window Substring",
+    difficulty: "Hard",
+    description: "Find the minimum window in string S which contains all characters of string T.",
+    hint: "Use two pointers with a character frequency map."
+  },
+]
+
 function TopicPage() {
   const [currentStep, setCurrentStep] = useState(0)
 
@@ -42,7 +67,7 @@ function TopicPage() {
         <p className="text-gray-400 mb-12">Master the most fundamental data structure</p>
 
         {/* Narration Box */}
-        <div className="mb-8 bg-gray-900 border-l-4 border-violet-500 rounded-2xl px-6 py-4">
+        <div className={`mb-8 rounded-2xl border-l-4 border-violet-500 bg-gray-900 px-6 py-4 transition-all duration-300 ${currentStep > 0 ? 'shadow-[0_0_20px_rgba(139,92,246,0.25)]' : ''}`}>
           <p className="text-xs text-violet-400 font-semibold uppercase tracking-widest mb-1">
             What's happening
           </p>
@@ -51,6 +76,7 @@ function TopicPage() {
           </p>
         </div>
 
+        {/* Visualizer + Code Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left — Visualizer */}
           <div className="bg-gray-900 rounded-3xl p-6 border border-gray-800">
@@ -67,7 +93,7 @@ function TopicPage() {
                   key={i}
                   className={`px-3 py-1 rounded-lg transition-all duration-300 ${
                     line.step === currentStep
-                      ? 'bg-violet-600/40 text-violet-200 border-l-4 border-violet-500'
+                      ? 'bg-violet-600/40 text-violet-200 border-l-4 border-violet-500 shadow-[0_0_15px_rgba(139,92,246,0.25)]'
                       : 'text-gray-400'
                   }`}
                 >
@@ -78,6 +104,41 @@ function TopicPage() {
             </div>
           </div>
         </div>
+
+        {/* Problem List */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-black text-white mb-2">Practice Problems</h2>
+          <p className="text-gray-400 mb-6">Apply what you just learned</p>
+          <div className="flex flex-col gap-4">
+            {problems.map((problem) => (
+              <div
+                key={problem.id}
+                className="bg-gray-900 border border-gray-800 rounded-2xl px-6 py-5 hover:border-violet-700 transition-all duration-300 cursor-pointer group"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-white font-bold text-lg group-hover:text-violet-400 transition-colors">
+                    {problem.title}
+                  </h3>
+                  <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+                    problem.difficulty === 'Easy' ? 'bg-green-500/20 text-green-400' :
+                    problem.difficulty === 'Medium' ? 'bg-yellow-500/20 text-yellow-400' :
+                    'bg-red-500/20 text-red-400'
+                  }`}>
+                    {problem.difficulty}
+                  </span>
+                </div>
+                <p className="text-gray-400 text-sm mb-3">{problem.description}</p>
+                <p className="text-violet-400 text-xs font-medium">
+                  Hint: {problem.hint}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Code Editor */}
+        <CodeEditor />
+
       </div>
     </div>
   )
