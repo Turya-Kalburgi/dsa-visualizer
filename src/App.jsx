@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import TopicGrid from './components/TopicGrid'
 import TopicPage from './pages/TopicPage'
+import LinkedListPage from './pages/LinkedListPage'
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
             <TopicGrid />
           </>
         } />
+        <Route path="/topic/arrays" element={<TopicPage />} />
+        <Route path="/topic/linked-list" element={<LinkedListPage />} />
         <Route path="/topic/:id" element={<TopicPage />} />
       </Routes>
     </div>
